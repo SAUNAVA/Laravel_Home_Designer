@@ -20,10 +20,23 @@ class DesignController extends Controller
                          ->where('length', '<=', $latestLayout->length)
                          ->where('width', '<=', $latestLayout->width)
                          ->where('height', '<=', $latestLayout->height)
-                         ->where('style', $latestLayout->style) // New filtering by style
+                          // New filtering by style
                          ->get();
     
         return view('designs.search', compact('designs'));
     }
+    public function index()
+    {
+        $designs = Design::all();
+        return view('dashboard' , compact('designs') );
+    }
+    
+public function destroy($id)
+{
+    $design = Design::findOrFail($id);
+    $design->delete();
+
+    return redirect()->back()->with('success', 'Design deleted successfully!');
+}
     
 }

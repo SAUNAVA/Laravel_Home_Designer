@@ -10,9 +10,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DesignController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile/saved-designs', [SavedDesignController::class, 'profile'])->name('profile.saved-designs');
     Route::get('/room/{id}/matches', [RoomLayoutController::class, 'showMatches'])->name('room.matches');
+    
+Route::delete('/designs/{id}', [DesignController::class, 'destroy'])->name('designs.destroy');
 
 
 });
